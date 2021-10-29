@@ -460,6 +460,13 @@ impl Timing {
             }
         }
     }
+
+    pub fn ticks_to_seconds(&self, ticks: u32, tempo: u24) -> f32{
+        match self{
+            Timing::Metrical(ppq) => ticks as f32 * (tempo.as_int() as f32 / ppq.as_int() as f32) / 1000000.,
+            Timing::Timecode(fps, sub) => ticks as f32 / fps.as_f32() / *sub as f32,
+        }
+    }
 }
 
 /// Encodes an SMPTE time of the day.
